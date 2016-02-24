@@ -7,13 +7,19 @@ class Game
 
   def initialize(bear)
     @bear = bear
-    @log = [{health: 0, energy: 0, food: 0}]
+    @log = [{health: 100, energy: 100, food: 100}]
   end
 
   def start()
-    puts "Welcome to hungry hungry bears. The aim of the game is to stay alive!"
-    output_bear_pretty()
+    system "clear"
+    puts "Welcome to Hungry Hungry Bears.(trademark pending) The aim of the game is to stay alive!"
+    puts "Your bear has:"
+    puts "Health: #{@bear.health}"
+    puts "Food: #{@bear.food}"
+    puts "Energy: #{@bear.energy}"
+    puts "You can do #{@bear.damage} damage!"
     play_turn()
+    # output_bear_pretty()
     puts "Sorry! You've died! You lasted #{@log.length - 1} days!"
   end
 
@@ -24,7 +30,8 @@ class Game
     action.do()
     commit_to_log()
     diff_hash = calculate_difference()
-    output_bear_pretty(diff_hash) unless prev.nil?
+    output_bear_pretty(diff_hash) 
+    # unless prev.nil?
     play_turn(action)
     return
   end
@@ -48,14 +55,18 @@ class Game
   end
 
   def ask_user()
-    puts "What do you want to do today? (Rest/Gather/Hunt)"
-    print "> "
-    input = gets.chomp.downcase
     choices = {
       "rest" => Rest,
       "gather" => Gather,
       "hunt" => Hunt
     }
+    puts "What do you want to do today? (Rest/Gather/Hunt)"
+    print "> "
+    input = gets.chomp.downcase
+      until choices.include?(input)
+        puts "invalid"
+        input = gets.chomp.downcase
+      end
     return choices[input]
   end
 
