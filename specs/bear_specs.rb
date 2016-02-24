@@ -16,5 +16,19 @@ class TestBear < Minitest::Test
     assert_equal(100, @bear.food)
   end
 
-  
+  def test_full_health
+    assert_equal(100, @bear.health)
+  end
+
+  def test_take_damage
+    @bear.take_damage(20)
+    assert_equal(80, @bear.health)
+  end
+
+  def test_take_damage_to_death
+    @bear.take_damage(101)
+    assert_equal(0, @bear.health)
+    assert_equal(false, @bear.is_alive)
+  end
+
 end
