@@ -16,7 +16,7 @@ class TestRest < MiniTest::Test
 
   def test_increases_bear_energy_by_10
     @bear.lose_energy(20)
-    @rest.do(@bear)
+    @rest.do()
     assert_equal(90, @bear.energy)
   end
 

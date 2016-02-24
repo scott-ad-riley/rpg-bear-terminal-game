@@ -16,12 +16,12 @@ class TestGather < MiniTest::Test
 
   def test_bear_gains_food
     @bear.lose_food(50)
-    @gather.do(@bear)
+    @gather.do()
     assert_equal(60, @bear.food)
   end
 
   def test_bear_loses_energy
-    @gather.do(@bear)
+    @gather.do()
     assert_equal(90, @bear.energy)
   end
 
