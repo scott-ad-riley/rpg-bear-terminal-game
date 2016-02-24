@@ -7,7 +7,7 @@ class TestHunt < MiniTest::Test
 
   def setup
     @bear = Bear.new(25)
-    @hunt = Hunt.new(@bear)
+    @hunt = Hunt.new(@bear, 1)
   end
 
   def test_bear_loses_food

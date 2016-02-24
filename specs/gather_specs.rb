@@ -7,7 +7,7 @@ class TestGather < MiniTest::Test
 
   def setup 
     @bear = Bear.new(25)
-    @gather = Gather.new(@bear)
+    @gather = Gather.new(@bear, 1)
   end
 
   def test_bear_loses_food

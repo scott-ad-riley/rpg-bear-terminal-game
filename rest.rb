@@ -1,12 +1,15 @@
-class Rest
+require_relative 'action'
 
-  def initialize(bear)
+class Rest < Action
+
+  def initialize(bear, difficulty)
     @bear = bear
-    @bear.lose_food(10 * $difficulty_modifier)
+    super(difficulty)
+    @bear.lose_food(scale(10))
   end
 
   def do()
-    @bear.give_energy(10)
+    @bear.give_energy(scale(10))
   end
 
 end

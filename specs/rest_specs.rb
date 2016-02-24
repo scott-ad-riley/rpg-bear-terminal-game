@@ -7,7 +7,7 @@ class TestRest < MiniTest::Test
 
   def setup
     @bear = Bear.new(25)
-    @rest = Rest.new(@bear)
+    @rest = Rest.new(@bear, 1)
   end
 
   def test_bear_loses_food
@@ -19,5 +19,5 @@ class TestRest < MiniTest::Test
     @rest.do()
     assert_equal(90, @bear.energy)
   end
-
+  
 end

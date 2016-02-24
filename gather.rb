@@ -1,13 +1,15 @@
-class Gather 
+require_relative 'action'
+class Gather < Action
 
-  def initialize(bear)
+  def initialize(bear, difficulty)
     @bear = bear
-    @bear.lose_food(10 * $difficulty_modifier)
+    super(difficulty)
+    @bear.lose_food(scale(10))
   end
 
   def do()
     @bear.give_food(20)
-    @bear.lose_energy(10 * $difficulty_modifier)
+    @bear.lose_energy(scale(10))
   end
 end
 

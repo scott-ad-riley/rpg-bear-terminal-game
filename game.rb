@@ -3,18 +3,18 @@ require_relative 'rest'
 require_relative 'gather'
 require_relative 'hunt'
 
-$difficulty_modifier = 1
-
 class Game
 
   def initialize(bear)
     @bear = bear
     @log = [{health: 100, energy: 100, food: 100}]
+    @difficulty = 1
   end
 
   def start()
-    puts "Difficulty level:"
-    $difficulty_modifier = gets.chomp.to_i
+    puts "Difficulty level (hit enter for default):"
+    value = gets.chomp
+    @difficulty = value.to_i unless value == ""
     system "clear"
     puts "Welcome to Hungry Hungry Bears.(trademark pending) The aim of the game is to stay alive!"
     puts "Your bear has:"
@@ -32,7 +32,7 @@ class Game
     # this extra logic stops bear from dying when only resting
     # || (@bear.food + @bear.health <= 5)
     user_action = ask_user()
-    action = user_action.new(@bear)
+    action = user_action.new(@bear, @difficulty)
     action.do()
     commit_to_log()
     diff_hash = calculate_difference()
