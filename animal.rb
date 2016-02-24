@@ -1,6 +1,6 @@
 class Animal
 
-attr_reader :name, :type
+attr_reader :name, :type, :damage
 
   def initialize(name, type, damage)
     @name = name

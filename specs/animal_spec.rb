@@ -10,13 +10,17 @@ class TestAnimal < Minitest::Test
 
   def test_animal_has_a_name
     result = @animal.name
-    assert_equal("Boris", result)
+    assert_equal( "Boris", result )
   end
 
   def test_animal_has_a_type
     result = @animal.type
-    assert_equal("Lion",result)
-    
+    assert_equal( "Lion", result )
+  end
+
+   def test_animal_has_a_damage
+    result = @animal.damage
+    assert_equal( 20, result )
   end
 
 
