@@ -1,4 +1,5 @@
 # Stuff still to do
 
 * Animals/Damage/Health Functionality
-* Difficulty scaling/levels
+
+Check out inheritance.rb for some details on how class inheritance works.

@@ -5,10 +5,10 @@ require_relative 'hunt'
 
 class Game
 
-  def initialize(bear)
+  def initialize(bear, difficulty = 1)
     @bear = bear
     @log = [{health: 100, energy: 100, food: 100}]
-    @difficulty = 1
+    @difficulty = difficulty
   end
 
   def start()
@@ -18,42 +18,37 @@ class Game
     system "clear"
     puts "Welcome to Hungry Hungry Bears.(trademark pending) The aim of the game is to stay alive!"
     puts "Your bear has:"
-    puts "Health: #{@bear.health}"
-    puts "Food: #{@bear.food}"
-    puts "Energy: #{@bear.energy}"
-    puts "You can do #{@bear.damage} damage!"
+    output_bear_pretty()
     play_turn()
-    # output_bear_pretty()
-    puts "Sorry! You've died! You lasted #{@log.length - 1} days!"
+    # could add another bit in here about telling the user final difficulty?
+    puts "Sorry! You've died! You lasted #{@log.length - 1} days!" 
   end
 
   def play_turn(prev = nil)
-    return unless @bear.is_alive 
-    # this extra logic stops bear from dying when only resting
-    # || (@bear.food + @bear.health <= 5)
+    # this commented conditional stops bear from dying when resting
+    return unless @bear.is_alive # || (@bear.food + @bear.health <= 5)
     user_action = ask_user()
     action = user_action.new(@bear, @difficulty)
     action.do()
     commit_to_log()
     diff_hash = calculate_difference()
+    system "clear"
     output_bear_pretty(diff_hash) 
-    # unless prev.nil?
     play_turn(action)
     return
   end
 
   def output_bear_pretty(diff_hash = nil)
-    if diff_hash.nil?
-      health_value = "#{@bear.health}"
-      energy_value = "#{@bear.energy}"
-      food_value = "#{@bear.food}"
-    else
-      health_value = "#{@bear.health} #{diff_hash[:health]}"
-      energy_value = "#{@bear.energy} #{diff_hash[:energy]}"
-      food_value = "#{@bear.food} #{diff_hash[:food]}"
+    health_value = "#{@bear.health}"
+    energy_value = "#{@bear.energy}"
+    food_value = "#{@bear.food}"
+
+    unless diff_hash.nil?
+      health_value += " #{diff_hash[:health]}"
+      energy_value += " #{diff_hash[:energy]}"
+      food_value += " #{diff_hash[:food]}"
     end      
       
-    system "clear"
     puts "Health: #{health_value}"
     puts "Food: #{food_value}"
     puts "Energy: #{energy_value}"
@@ -70,7 +65,8 @@ class Game
     print "> "
     input = gets.chomp.downcase
       until choices.include?(input)
-        puts "invalid"
+        puts "Sorry, not recognised! Try again:"
+        print "> "
         input = gets.chomp.downcase
       end
     return choices[input]
