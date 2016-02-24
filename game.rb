@@ -7,6 +7,7 @@ class Game
 
   def initialize(bear)
     @bear = bear
+    @log = []
   end
 
   def start()
@@ -15,9 +16,9 @@ class Game
     puts "Sorry! You've died!"
   end
 
-  def play_turn()
+  def play_turn(prev = nil)
     return unless @bear.is_alive || (@bear.food + @bear.health <= 5)
-    output_bear_pretty()
+    output_bear_pretty() unless prev.nil?
     puts "What do you want to do next? (Rest/Gather/Hunt)"
     print "> "
     input = gets.chomp.downcase
@@ -28,7 +29,13 @@ class Game
     }
     action = choices[input].new(@bear)
     action.do()
-    play_turn()
+    bear_stats = {
+      health: @bear.health,
+      food: @bear.food,
+      energy: @bear.energy
+    }
+    @log.push(bear_stats)
+    play_turn(action)
     return
   end
 
