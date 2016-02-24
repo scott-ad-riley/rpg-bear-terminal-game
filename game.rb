@@ -7,19 +7,48 @@ class Game
 
   def initialize(bear)
     @bear = bear
-    @log = []
+    @log = [{health: 0, energy: 0, food: 0}]
   end
 
   def start()
     puts "Welcome to hungry hungry bears. The aim of the game is to stay alive!"
+    output_bear_pretty()
     play_turn()
-    puts "Sorry! You've died!"
+    puts "Sorry! You've died! You lasted #{@log.length - 1} days!"
   end
 
   def play_turn(prev = nil)
     return unless @bear.is_alive || (@bear.food + @bear.health <= 5)
-    output_bear_pretty() unless prev.nil?
-    puts "What do you want to do next? (Rest/Gather/Hunt)"
+    user_action = ask_user()
+    action = user_action.new(@bear)
+    action.do()
+    commit_to_log()
+    diff_hash = calculate_difference()
+    output_bear_pretty(diff_hash) unless prev.nil?
+    play_turn(action)
+    return
+  end
+
+  def output_bear_pretty(diff_hash = nil)
+    if diff_hash.nil?
+      health_value = "#{@bear.health}"
+      energy_value = "#{@bear.energy}"
+      food_value = "#{@bear.food}"
+    else
+      health_value = "#{@bear.health} #{diff_hash[:health]}"
+      energy_value = "#{@bear.energy} #{diff_hash[:energy]}"
+      food_value = "#{@bear.food} #{diff_hash[:food]}"
+    end      
+      
+    system "clear"
+    puts "Health: #{health_value}"
+    puts "Food: #{food_value}"
+    puts "Energy: #{energy_value}"
+    puts "You can do #{@bear.damage} damage!"
+  end
+
+  def ask_user()
+    puts "What do you want to do today? (Rest/Gather/Hunt)"
     print "> "
     input = gets.chomp.downcase
     choices = {
@@ -27,26 +56,26 @@ class Game
       "gather" => Gather,
       "hunt" => Hunt
     }
-    action = choices[input].new(@bear)
-    action.do()
+    return choices[input]
+  end
+
+  def commit_to_log()
     bear_stats = {
       health: @bear.health,
       food: @bear.food,
       energy: @bear.energy
     }
     @log.push(bear_stats)
-    play_turn(action)
-    return
   end
 
-  def output_bear_pretty
-    system "clear"
-    puts "Health: #{@bear.health}"
-    puts "Food: #{@bear.food}"
-    puts "Energy: #{@bear.energy}"
-    puts "You can do #{@bear.damage} damage!"
+  def calculate_difference()
+    result_hash = {
+      health: @log[-1][:health] - @log[-2][:health],
+      energy: @log[-1][:energy] - @log[-2][:energy],
+      food: @log[-1][:food] - @log[-2][:food]
+    }
+    return result_hash
   end
-
 
 end
 
