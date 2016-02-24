@@ -19,6 +19,40 @@ class Bear
     end
   end
 
+  def lose_energy(energy)
+    if (@energy - energy <= 0)
+      difference = (@energy - energy) * - 1
+      @energy = 0
+      take_damage(difference)
+    else
+      @energy -= energy
+    end  
+  end
 
+  def give_energy(energy)
+    if (@energy + energy > 100)
+      @energy = 100
+    else
+      @energy += energy
+    end  
+  end
+
+  def lose_food(food)
+    if (@food - food <= 0)
+      difference = (@food - food) * - 1
+      @food = 0
+      take_damage(difference)
+    else
+      @food -= food
+    end  
+  end
+
+  def give_food(food)
+    if (@food + food > 100)
+      @food = 100
+    else
+      @food += food
+    end  
+  end    
 
 end
