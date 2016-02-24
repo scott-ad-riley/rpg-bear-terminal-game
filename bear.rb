@@ -10,6 +10,7 @@ class Bear
     @is_alive = true
   end
 
+# does bear take damage or give damage?
   def take_damage(damage)
     if (@health - damage <= 0)
       @is_alive = false

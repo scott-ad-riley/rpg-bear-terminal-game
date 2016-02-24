@@ -2,7 +2,7 @@ class Rest
 
   def initialize(bear)
     @bear = bear
-    @bear.lose_food(10)
+    @bear.lose_food(10 * $difficulty_modifier)
   end
 
   def do()

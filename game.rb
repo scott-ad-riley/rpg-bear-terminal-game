@@ -3,6 +3,8 @@ require_relative 'rest'
 require_relative 'gather'
 require_relative 'hunt'
 
+$difficulty_modifier = 1
+
 class Game
 
   def initialize(bear)
@@ -11,6 +13,8 @@ class Game
   end
 
   def start()
+    puts "Difficulty level:"
+    $difficulty_modifier = gets.chomp.to_i
     system "clear"
     puts "Welcome to Hungry Hungry Bears.(trademark pending) The aim of the game is to stay alive!"
     puts "Your bear has:"
@@ -24,7 +28,9 @@ class Game
   end
 
   def play_turn(prev = nil)
-    return unless @bear.is_alive || (@bear.food + @bear.health <= 5)
+    return unless @bear.is_alive 
+    # this extra logic stops bear from dying when only resting
+    # || (@bear.food + @bear.health <= 5)
     user_action = ask_user()
     action = user_action.new(@bear)
     action.do()
