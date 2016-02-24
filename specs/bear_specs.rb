@@ -61,4 +61,34 @@ class TestBear < Minitest::Test
     assert_equal(100, @bear.energy)
   end
 
+  def test_lose_food
+    @bear.lose_food(10)
+    assert_equal(90, @bear.food)
+  end
+
+  def test_lose_food_empty
+    @bear.lose_food(110)
+    assert_equal(0, @bear.food)
+    assert_equal(90, @bear.health)
+  end
+
+  def test_lose_food_to_death
+    @bear.lose_food(200)
+    assert_equal(0, @bear.health)
+    assert_equal(0, @bear.food)
+    assert_equal(false, @bear.is_alive)
+  end
+
+  def test_give_food
+    @bear.lose_food(20)
+    @bear.give_food(10)
+    assert_equal(90, @bear.food)
+  end
+
+  def test_give_food_over_cap
+    @bear.lose_food(10)
+    @bear.give_food(20)
+    assert_equal(100, @bear.food)
+  end
+
 end
