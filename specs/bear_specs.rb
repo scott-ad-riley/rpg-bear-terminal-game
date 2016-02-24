@@ -12,5 +12,9 @@ class TestBear < Minitest::Test
     assert_equal(100, @bear.energy)
   end
 
+  def test_full_food
+    assert_equal(100, @bear.food)
+  end
 
+  
 end

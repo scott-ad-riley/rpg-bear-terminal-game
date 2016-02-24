@@ -1,6 +1,6 @@
 class Bear
 
-  attr_reader :energy
+  attr_reader :energy, :food
 
   def initialize(damage)
     @damage = damage
