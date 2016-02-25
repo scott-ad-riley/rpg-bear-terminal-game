@@ -1,13 +1,17 @@
+require 'colorize'
 require_relative 'bear'
 require_relative 'rest'
 require_relative 'gather'
 require_relative 'hunt'
+require_relative 'logger'
+require_relative 'viewer'
 
 class Game
 
   def initialize(bear, difficulty = 1)
     @bear = bear
-    @log = [{health: 100, energy: 100, food: 100}]
+    @log = Logger.new(@bear)
+    @viewer = Viewer.new(@log, @bear)
     @difficulty = difficulty
   end
 
@@ -18,10 +22,10 @@ class Game
     system "clear"
     puts "Welcome to Hungry Hungry Bears.(trademark pending) The aim of the game is to stay alive!"
     puts "Your bear has:"
-    output_bear_pretty()
+    @viewer.display_bear_state()
     play_turn()
     # could add another bit in here about telling the user final difficulty?
-    puts "Sorry! You've died! You lasted #{@log.length - 1} days!" 
+    puts "Sorry! You've died! You lasted #{@log.values.length - 1} days!" 
   end
 
   def play_turn(prev = nil)
@@ -30,30 +34,31 @@ class Game
     user_action = ask_user()
     action = user_action.new(@bear, @difficulty)
     action.do()
-    commit_to_log()
-    diff_hash = calculate_difference()
+    @log.commit()
+    # diff_hash = calculate_difference()
     system "clear"
-    output_bear_pretty(diff_hash) 
+    @viewer.display_bear_state()
+    # output_bear_pretty(diff_hash) 
     play_turn(action)
     return
   end
 
-  def output_bear_pretty(diff_hash = nil)
-    health_value = "#{@bear.health}"
-    energy_value = "#{@bear.energy}"
-    food_value = "#{@bear.food}"
+  # def output_bear_pretty(diff_hash = nil)
+  #   health_value = "#{@bear.health}"
+  #   energy_value = "#{@bear.energy}"
+  #   food_value = "#{@bear.food}"
 
-    unless diff_hash.nil?
-      health_value += " #{diff_hash[:health]}"
-      energy_value += " #{diff_hash[:energy]}"
-      food_value += " #{diff_hash[:food]}"
-    end      
+  #   unless diff_hash.nil?
+  #     health_value += " #{diff_hash[:health]}"
+  #     energy_value += " #{diff_hash[:energy]}"
+  #     food_value += " #{diff_hash[:food]}"
+  #   end      
       
-    puts "Health: #{health_value}"
-    puts "Food: #{food_value}"
-    puts "Energy: #{energy_value}"
-    puts "You can do #{@bear.damage} damage!"
-  end
+  #   puts "Health: #{health_value}"
+  #   puts "Food: #{food_value}"
+  #   puts "Energy: #{energy_value}"
+  #   puts "You can do #{@bear.damage} damage!"
+  # end
 
   def ask_user()
     choices = {
@@ -70,24 +75,6 @@ class Game
         input = gets.chomp.downcase
       end
     return choices[input]
-  end
-
-  def commit_to_log()
-    bear_stats = {
-      health: @bear.health,
-      food: @bear.food,
-      energy: @bear.energy
-    }
-    @log.push(bear_stats)
-  end
-
-  def calculate_difference()
-    result_hash = {
-      health: @log[-1][:health] - @log[-2][:health],
-      energy: @log[-1][:energy] - @log[-2][:energy],
-      food: @log[-1][:food] - @log[-2][:food]
-    } 
-    return result_hash
   end
 
 end
