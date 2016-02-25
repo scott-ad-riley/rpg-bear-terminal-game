@@ -35,6 +35,10 @@ class Viewer
     arrows = ["", "↑", "↓"]
     color = [nil, :green, :red]
     for key, value in result
+      if result[key] == 0
+        result[key] = ""
+        next
+      end
       state = value <=> 0
       result[key] = result[key].to_s.delete('-')
       result[key] = result[key].to_s.prepend(arrows[state])
