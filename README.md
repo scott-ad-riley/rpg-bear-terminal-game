@@ -4,6 +4,9 @@
 
 ### Play The Game
 
+1. You will need the `colorize` ruby gem 
+  * `gem install colorize`
+  * [colorize docs](https://github.com/fazibear/colorize)
 1. Run `ruby game.rb`
 2. Pick your difficulty (we'd recommend <5 to start with)
 3. Follow the instructions :)

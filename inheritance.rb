@@ -27,7 +27,7 @@ end
 
 foo = Parent.new("apple")
 puts foo.parent_var_one # => "apple"
-puts foo.parent_var_two # => "apple"
+puts foo.parent_var_two # => "banana"
 
 bar = Child.new("orange")
 puts bar.child_var # => "orange"

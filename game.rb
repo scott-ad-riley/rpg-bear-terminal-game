@@ -86,7 +86,7 @@ class Game
       health: @log[-1][:health] - @log[-2][:health],
       energy: @log[-1][:energy] - @log[-2][:energy],
       food: @log[-1][:food] - @log[-2][:food]
-    }
+    } 
     return result_hash
   end
 
