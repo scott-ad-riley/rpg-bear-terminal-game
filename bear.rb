@@ -54,6 +54,13 @@ class Bear
     else
       @food += food
     end  
-  end    
+  end
+
+  def fight(opponent)
+    take_damage(opponent.damage)
+    result = opponent.to_hash
+    result[:bear_won] = (@damage > opponent.damage) ? true : false
+    return result
+  end
 
 end

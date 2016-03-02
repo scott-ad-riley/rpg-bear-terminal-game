@@ -33,11 +33,12 @@ class Game
     return unless @bear.is_alive # || (@bear.food + @bear.health <= 5)
     user_action = ask_user()
     action = user_action.new(@bear, @difficulty)
-    action.do()
-    @log.commit()
+    result = action.do()
+    @log.commit(result)
     # diff_hash = calculate_difference()
     system "clear"
     @viewer.display_bear_state()
+    @viewer.display_last_action()
     # output_bear_pretty(diff_hash) 
     play_turn(action)
     return

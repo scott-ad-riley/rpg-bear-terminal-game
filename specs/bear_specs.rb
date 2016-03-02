@@ -1,11 +1,14 @@
 require 'minitest/autorun'
 require 'minitest/rg'
 require_relative '../bear'
+require_relative '../animal'
 
 class TestBear < Minitest::Test
   
   def setup
     @bear = Bear.new(25)
+    @opponent_easy = Animal.new(1, "Boris", "Lion", 20 )
+    @opponent_hard = Animal.new(1, "Gladys", "Honey Badger", 40 )
   end
 
   def test_full_energy
@@ -89,6 +92,18 @@ class TestBear < Minitest::Test
     @bear.lose_food(10)
     @bear.give_food(20)
     assert_equal(100, @bear.food)
+  end
+
+  def test_bear_fight_win
+    result = @bear.fight(@opponent_easy)
+    assert_equal(true, result[:bear_won])
+    assert_equal(80, @bear.health)
+  end
+
+  def test_bear_fight_lose
+    result = @bear.fight(@opponent_hard)
+    assert_equal(false, result[:bear_won])
+    assert_equal(60, @bear.health)
   end
 
 end

@@ -1,13 +1,14 @@
 class Logger
   attr_reader :values
 	def initialize(bear)
-		@values = [{health: 100, energy: 100, food: 100}] # feels weird to put log in here?
+		@values = [{health: 100, energy: 100, food: 100, action: nil}] # feels weird to put log in here?
 		@bear = bear
 	end
 
-	def commit()
-		current_bear = build_hash()
-		@values.push(current_bear)
+	def commit(action_result)
+		bear_state = build_hash()
+		bear_state[:action] = action_result
+		@values.push(bear_state)
 	end
 
 	private

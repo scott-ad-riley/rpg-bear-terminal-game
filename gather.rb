@@ -8,8 +8,11 @@ class Gather < Action
   end
 
   def do()
-    @bear.give_food(20)
+    @bear.give_food(scale(20))
     @bear.lose_energy(scale(10))
+    return {
+    	action: "gather"
+    }
   end
 end
 

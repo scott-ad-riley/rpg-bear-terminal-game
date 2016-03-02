@@ -10,6 +10,9 @@ class Rest < Action
 
   def do()
     @bear.give_energy(scale(10))
+    return {
+    	action: "rest"
+    }
   end
 
 end

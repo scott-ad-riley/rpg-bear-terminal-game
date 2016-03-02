@@ -23,9 +23,17 @@ class Viewer
     puts "Health: #{health_output}"
     puts "Food: #{food_output}"
     puts "Energy: #{energy_output}"
-    puts "You can do #{@bear.damage} damage!"
+    puts "Damage: #{@bear.damage}"
 	end
 
-	private
+  def display_last_action()
+    action_result = @log.values.last[:action]
+    unless action_result[:action] == "hunt"
+      puts "You just #{action_result[:action]}ed!"
+    else
+      result = (action_result[:bear_won]) ? "won" : "lost"
+      puts "You just fought #{action_result[:pretty_name]} and #{result}!"
+    end
+  end
 
 end
